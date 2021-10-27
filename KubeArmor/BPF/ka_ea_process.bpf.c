@@ -78,6 +78,283 @@ task_set_for_audit(const struct current_task *ctask)
 				   BPF_ANY);
 }
 
+// static bool
+// match(const char *pat, const char *str)
+// {
+// 	if (!pat || !str)
+// 		return false;
+
+// 	int str_track = -1;
+// 	int pat_track = -1;
+// 	int i	      = 0;
+// 	int j	      = 0;
+
+// #define do_logic()                                              \
+// 	do {                                                    \
+// 		if (i >= MAX_FILENAME_LEN || str[i] == '\0')    \
+// 			goto loop;                              \
+// 		if (j >= MAX_PATTERN_LEN)                       \
+// 			return false;                           \
+// 		if (pat[j] == '\0' && str[i] == '\0')           \
+// 			return true;                            \
+// 		if (pat[j] == '*') {                            \
+// 			str_track = i;                          \
+// 			pat_track = j;                          \
+// 			j++;                                    \
+// 		} else if (pat[j] != '?' && pat[j] != str[i]) { \
+// 			if (pat_track == -1)                    \
+// 				return false;                   \
+// 			str_track++;                            \
+// 			i = str_track;                          \
+// 			j = pat_track;                          \
+// 		} else {                                        \
+// 			i++;                                    \
+// 			j++;                                    \
+// 		}                                               \
+// 	} while (0)
+
+// 	do_logic();
+// 	do_logic();
+// 	do_logic();
+// 	do_logic();
+// 	do_logic();
+
+// loop:
+// 	while (j < MAX_PATTERN_LEN - 1 && pat[j] == '*')
+// 		j++;
+
+// 	return pat[j] == '\0';
+// }
+
+// static bool
+// match(const char *pat, const char *str)
+// {
+// 	if (!pat || !str)
+// 		return false;
+
+// 	int str_track = -1;
+// 	int pat_track = -1;
+// 	int i	      = 0;
+// 	int j	      = 0;
+
+// 	while (i < MAX_FILENAME_LEN && str[i] != '\0') {
+// 		if (j >= MAX_PATTERN_LEN)
+// 			return false;
+// 		if (pat[j] == '\0' && str[i] == '\0')
+// 			return true;
+// 		if (pat[j] == '*') {
+// 			str_track = i;
+// 			pat_track = j;
+// 			j++;
+// 		} else if (pat[j] != '?' && pat[j] != str[i]) {
+// 			if (pat_track == -1)
+// 				return false;
+// 			str_track++;
+// 			i = str_track;
+// 			j = pat_track;
+// 		} else {
+// 			i++;
+// 			j++;
+// 		}
+// 	}
+
+// 	while (j < MAX_PATTERN_LEN - 1 && pat[j] == '*')
+// 		j++;
+
+// 	return pat[j] == '\0';
+// }
+
+#define CHK_2                                                         \
+	do {                                                          \
+		if (!wild[w] || !str[i])                              \
+			goto CHK_2_OUT;                               \
+		two++;                                                \
+		if (wild[w] == '*') {                                 \
+			if (!wild[++w])                               \
+				return true;                          \
+			mp = w;                                       \
+			cp = i + 1;                                   \
+		} else if ((wild[w] == str[i]) || (wild[w] == '?')) { \
+			w++;                                          \
+			i++;                                          \
+		} else {                                              \
+			w = mp;                                       \
+			i = cp++;                                     \
+		}                                                     \
+	} while (0)
+
+static bool
+match(const char *wild, const char *str)
+{
+	int w	  = 0;
+	int i	  = 0;
+	int mp	  = 0;
+	int cp	  = 0;
+
+	int one	  = 0;
+	int two	  = 0;
+	int three = 0;
+
+#define CHK_1                                                \
+	do {                                                 \
+		if (!str[i] || wild[i] == '*')               \
+			goto CHK_1_OUT;                      \
+		if ((wild[i] != str[i]) && (wild[i] != '?')) \
+			return false;                        \
+		one++;                                       \
+		i++;                                         \
+	} while (0)
+
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+	CHK_1;
+CHK_1_OUT:
+	w = i;
+
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+	CHK_2;
+CHK_2_OUT:
+
+#define CHK_3                           \
+	do {                            \
+		if (wild[w] != '*')     \
+			goto CHK_3_OUT; \
+		three++;                \
+		w++;                    \
+	} while (0)
+
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+	CHK_3;
+CHK_3_OUT:
+
+	// if (!wild[w]) {
+	// 	printf("one:%d two:%d three:%d\n", one, two, three);
+	// }
+
+	return !wild[w];
+}
+
 SEC("tp/sched/sched_process_exec")
 int
 ka_ea_sched_process_exec(struct trace_event_raw_sched_process_exec *ctx)
@@ -96,6 +373,14 @@ ka_ea_sched_process_exec(struct trace_event_raw_sched_process_exec *ctx)
 		return 0;
 
 	task_get_ids(&ctask);
+
+	char pattern[128] = "/bin/*sh";
+	bool r;
+
+	r = match(pattern, ctask.filename);
+	if (r)
+		bpf_printk("pattern: %s - filename: %s - result: %d", pattern,
+			   ctask.filename, r);
 
 	if (!task_auditable(&ctask))
 		return 0;
